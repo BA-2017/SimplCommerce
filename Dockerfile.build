@@ -1,0 +1,33 @@
+FROM microsoft/aspnetcore-build
+
+WORKDIR /app
+
+COPY *.sln .
+COPY ./src/Modules/SimplCommerce.Module.ActivityLog/SimplCommerce.Module.ActivityLog.csproj ./src/Modules/SimplCommerce.Module.ActivityLog/
+COPY ./src/Modules/SimplCommerce.Module.Catalog/SimplCommerce.Module.Catalog.csproj ./src/Modules/SimplCommerce.Module.Catalog/
+COPY ./src/Modules/SimplCommerce.Module.Cms/SimplCommerce.Module.Cms.csproj ./src/Modules/SimplCommerce.Module.Cms/
+COPY ./src/Modules/SimplCommerce.Module.Contacts/SimplCommerce.Module.Contacts.csproj ./src/Modules/SimplCommerce.Module.Contacts/
+COPY ./src/Modules/SimplCommerce.Module.Core/SimplCommerce.Module.Core.csproj ./src/Modules/SimplCommerce.Module.Core/
+COPY ./src/Modules/SimplCommerce.Module.Localization/SimplCommerce.Module.Localization.csproj ./src/Modules/SimplCommerce.Module.Localization/
+COPY ./src/Modules/SimplCommerce.Module.News/SimplCommerce.Module.News.csproj ./src/Modules/SimplCommerce.Module.News/
+COPY ./src/Modules/SimplCommerce.Module.Orders/SimplCommerce.Module.Orders.csproj ./src/Modules/SimplCommerce.Module.Orders/
+COPY ./src/Modules/SimplCommerce.Module.ProductComparison/SimplCommerce.Module.ProductComparison.csproj ./src/Modules/SimplCommerce.Module.ProductComparison/
+COPY ./src/Modules/SimplCommerce.Module.Reviews/SimplCommerce.Module.Reviews.csproj ./src/Modules/SimplCommerce.Module.Reviews/
+COPY ./src/Modules/SimplCommerce.Module.SampleData/SimplCommerce.Module.SampleData.csproj ./src/Modules/SimplCommerce.Module.SampleData/
+COPY ./src/Modules/SimplCommerce.Module.Search/SimplCommerce.Module.Search.csproj ./src/Modules/SimplCommerce.Module.Search/
+COPY ./src/Modules/SimplCommerce.Module.Vendors/SimplCommerce.Module.Vendors.csproj ./src/Modules/SimplCommerce.Module.Vendors/
+COPY ./src/SimplCommerce.Infrastructure/SimplCommerce.Infrastructure.csproj ./src/SimplCommerce.Infrastructure/
+COPY ./src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj ./src/SimplCommerce.WebHost/
+COPY ./test/SimplCommerce.Infrastructure.Tests/SimplCommerce.Infrastructure.Tests.csproj ./test/SimplCommerce.Infrastructure.Tests/
+COPY ./test/SimplCommerce.Module.Cms.Tests/SimplCommerce.Module.Cms.Tests.csproj ./test/SimplCommerce.Module.Cms.Tests/
+COPY ./test/SimplCommerce.Module.Core.Tests/SimplCommerce.Module.Core.Tests.csproj ./test/SimplCommerce.Module.Core.Tests/
+
+RUN dotnet restore
+
+COPY . .
+RUN dotnet restore && \
+    dotnet build -c Release && \
+    cd src/SimplCommerce.WebHost && \
+    npm install && \
+    gulp copy-modules && \
+    dotnet publish -c Release -o publish
