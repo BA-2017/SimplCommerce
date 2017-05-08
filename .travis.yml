@@ -1,25 +1,7 @@
-language: csharp
-solution: SimplCommerce.sln
 sudo: required
-dist: trusty
-dotnet: 1.0.0
-mono: none
-os:
-  - linux
-  - osx
-
-branches:  
-  only:
-    - master
-
-notifications:
-  email:
-    on_success: change
-    on_failure: always
-
-before_script:
-  - dotnet restore
-
+services:
+  - docker
+language: generic
 script:
-  - dotnet build ./SimplCommerce.sln
-  - ./run-tests.sh
+  # Invoke build script
+  - time ./build.sh

@@ -18,16 +18,18 @@ COPY ./src/Modules/SimplCommerce.Module.Search/SimplCommerce.Module.Search.cspro
 COPY ./src/Modules/SimplCommerce.Module.Vendors/SimplCommerce.Module.Vendors.csproj ./src/Modules/SimplCommerce.Module.Vendors/
 COPY ./src/SimplCommerce.Infrastructure/SimplCommerce.Infrastructure.csproj ./src/SimplCommerce.Infrastructure/
 COPY ./src/SimplCommerce.WebHost/SimplCommerce.WebHost.csproj ./src/SimplCommerce.WebHost/
+COPY ./src/SimplCommerce.WebHost/package.json ./src/SimplCommerce.WebHost/
 COPY ./test/SimplCommerce.Infrastructure.Tests/SimplCommerce.Infrastructure.Tests.csproj ./test/SimplCommerce.Infrastructure.Tests/
 COPY ./test/SimplCommerce.Module.Cms.Tests/SimplCommerce.Module.Cms.Tests.csproj ./test/SimplCommerce.Module.Cms.Tests/
 COPY ./test/SimplCommerce.Module.Core.Tests/SimplCommerce.Module.Core.Tests.csproj ./test/SimplCommerce.Module.Core.Tests/
 
-RUN dotnet restore
+RUN dotnet restore && \
+    cd src/SimplCommerce.WebHost && \
+    npm install
 
-COPY . .
+COPY ./src/ ./src/
 RUN dotnet restore && \
     dotnet build -c Release && \
     cd src/SimplCommerce.WebHost && \
-    npm install && \
     gulp copy-modules && \
     dotnet publish -c Release -o publish

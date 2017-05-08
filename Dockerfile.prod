@@ -1,6 +1,6 @@
 FROM microsoft/aspnetcore
 WORKDIR /app
-COPY ./output/publish .
+COPY ./publish .
 ENV ASPNETCORE_URLS http://*:9000
 ENV ConnectionStrings__DefaultConnection Data Source=mssql;Initial Catalog=SimplCommerce;Integrated Security=False;User Id=sa;Password=aklsdjAf5%ienl8347D%(wef;MultipleActiveResultSets=True
 ENTRYPOINT ["dotnet", "SimplCommerce.WebHost.dll"]
