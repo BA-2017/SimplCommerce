@@ -84,8 +84,7 @@ namespace SimplCommerce.WebHost
                     { "System", LogLevel.Warning },
                     { "SimplCommerce", LogLevel.Debug }
                 })
-                .AddConsole()
-                .AddSerilog();
+                .AddConsole();
 
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
@@ -98,7 +97,7 @@ namespace SimplCommerce.WebHost
                     { "System", LogLevel.Warning },
                     { "SimplCommerce", LogLevel.Error }
                 })
-                .AddSerilog();
+                .AddConsole();
 
                 app.UseExceptionHandler("/Home/Error");
             }
