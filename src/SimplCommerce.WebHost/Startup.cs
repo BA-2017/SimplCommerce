@@ -17,6 +17,7 @@ using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Localization;
 using SimplCommerce.WebHost.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace SimplCommerce.WebHost
 {
@@ -34,6 +35,12 @@ namespace SimplCommerce.WebHost
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", true, true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true);
+
+            if (env.IsDevelopment())
+            {
+                // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
+                builder.AddUserSecrets<Startup>();
+            }
 
             builder.AddEnvironmentVariables();
             var connectionStringConfig = builder.Build();
@@ -107,6 +114,13 @@ namespace SimplCommerce.WebHost
             app.UseCustomizedRequestLocalization();
             app.UseCustomizedStaticFiles(env);
             app.UseCustomizedIdentity();
+            app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
+            {
+                ClientId = Configuration["OpenIdConnect:ClientId"],
+                ClientSecret = Configuration["ClientSecret"],
+                Authority = Configuration["OpenIdConnect:Authority"],
+                ResponseType = OpenIdConnectResponseType.Code
+            });
             app.UseCustomizedMvc();
         }
     }
