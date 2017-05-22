@@ -1,4 +1,4 @@
-FROM microsoft/aspnetcore-build
+FROM microsoft/aspnetcore-build:1.1.0
 
 WORKDIR /app
 
@@ -33,3 +33,9 @@ RUN dotnet restore && \
     cd src/SimplCommerce.WebHost && \
     gulp copy-modules && \
     dotnet publish -c Release -o publish
+
+WORKDIR /app/src/SimplCommerce.WebHost
+
+ENV ASPNETCORE_URLS http://*:9000
+
+ENTRYPOINT ["dotnet", "run"]
