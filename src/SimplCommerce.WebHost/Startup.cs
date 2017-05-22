@@ -36,11 +36,11 @@ namespace SimplCommerce.WebHost
                 .AddJsonFile("appsettings.json", true, true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true);
 
-            if (env.IsDevelopment())
-            {
-                // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
-                builder.AddUserSecrets<Startup>();
-            }
+            //if (env.IsDevelopment())
+            //{
+            //    // For more details on using the user secret store see https://go.microsoft.com/fwlink/?LinkID=532709
+            //    builder.AddUserSecrets<Startup>();
+            //}
 
             builder.AddEnvironmentVariables();
             var connectionStringConfig = builder.Build();
