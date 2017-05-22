@@ -68,11 +68,11 @@ namespace SimplCommerce.Module.Core.Data
                .OnDelete(DeleteBehavior.Restrict);
             });
 
-            modelBuilder.Entity<UserAddress>()
-                .HasOne(x => x.User)
-                .WithMany(a => a.UserAddresses)
-                .HasForeignKey(x => x.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+            // modelBuilder.Entity<UserAddress>()
+            //     .HasOne(x => x.User)
+            //     .WithMany(a => a.UserAddresses)
+            //     .HasForeignKey(x => x.UserId)
+            //     .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Address>(x =>
             {
