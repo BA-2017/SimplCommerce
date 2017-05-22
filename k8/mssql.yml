@@ -76,34 +76,33 @@ spec:
   ports:
   - port: 1433
     targetPort: 1433
----
-# apiVersion: batch/v2alpha1
-# kind: CronJob
+# ---
+# apiVersion: batch/v1
+# kind: Job
 # metadata:
 #   name: mssql-backup
 #   namespace: simplcommerce
 # spec:
-#   schedule: "*/1 * * * *"
-#   jobTemplate:
+#   template:
 #     spec:
-#       template:
-#         spec:
-#           containers:
-#           - name: mssql-server
-#             image: microsoft/mssql-server-linux:ctp2-1
-#             command:
-#             - "/opt/mssql-tools/bin/sqlcmd"
-#             args:
-#             - "-S"
-#             - "mssql-simplcommerce"
-#             - "-U"
-#             - "sa"
-#             - "-P"
-#             - "$SA_PASSWORD"
-#             env:
-#               - name: SA_PASSWORD
-#                 valueFrom:
-#                   secretKeyRef:
-#                     name: simplcommerce-db-credentials
-#                     key: sa_password
-#           restartPolicy: OnFailure
+#       containers:
+#       - name: mssql-server
+#         image: microsoft/mssql-server-linux:ctp1-4
+#         command:
+#         - "/opt/mssql-tools/bin/sqlcmd"
+#         args:
+#         - -S
+#         - "mssql-simplcommerce.simplcommerce.svc.cluster.local"
+#         - -U
+#         - sa
+#         - -P
+#         - $(echo $SA_PASSWORD)
+#         - -Q
+#         - "BACKUP DATABASE SimplCommerce TO DISK = N'/var/opt/mssql/data/backup/simplcommerceDB_$(date +%Y_%m_%d-%H.%M).bak' WITH NOFORMAT, NOINIT, NAME = 'simplcommerceDB-full_$(date +%Y_%m_%d-%H.%M)', SKIP, NOREWIND, NOUNLOAD, STATS = 10; BACKUP LOG SimplCommerce TO  DISK = N'/var/opt/mssql/data/backup/simplcommerce_LogBackup_$(date +%Y_%m_%d-%H.%M).bak' WITH NOFORMAT, NOINIT,  NAME = N'simplcommerce_LogBackup_$(date +%Y_%m_%d-%H.%M)', SKIP, NOREWIND, NOUNLOAD,  STATS = 5"
+#         env:
+#           - name: SA_PASSWORD
+#             valueFrom:
+#               secretKeyRef:
+#                 name: simplcommerce-db-credentials
+#                 key: sa_password
+#       restartPolicy: Never
