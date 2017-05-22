@@ -1,0 +1,21 @@
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: simplcommerce
+  namespace: simplcommerce
+  labels:
+    # let kube-cert-manager generate an SSL certificate
+    stable.k8s.psg.io/kcm.class: "default"
+spec:
+  tls:
+  - hosts:
+    - simpl.zhaw.tk
+    secretName: simplcommerce-tls-cert
+  rules:
+  - host: simpl.zhaw.tk
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: simplcommerce
+          servicePort: 80

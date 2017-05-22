@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: simplcommerce
+  namespace: simplcommerce
+  labels:
+    app: simplcommerce
+spec:
+  selector:
+    app: simplcommerce
+  ports:
+  - port: 80
+    targetPort: 9000
