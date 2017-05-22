@@ -14,8 +14,12 @@ spec:
     spec:
       containers:
       - name: simplcommerce
-        image: ba2017/simplcommerce:v0.2
+        image: ba2017/simplcommerce:v0.12
+        command:
+        - "dotnet run"
         env:
+        - name: ASPNETCORE_URLS
+          value: "http://*:9000"
         - name: ASPNETCORE_ENVIRONMENT
           value: "Development"
         - name: ConnectionStrings__DefaultConnection
