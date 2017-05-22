@@ -25,7 +25,7 @@ namespace SimplCommerce.Module.Core.Models
 
         public DateTimeOffset UpdatedOn { get; set; }
 
-        //public IList<UserAddress> UserAddresses { get; set; } = new List<UserAddress>();
+        public IList<UserAddress> UserAddresses { get; set; } = new List<UserAddress>();
 
         public UserAddress DefaultShippingAddress { get; set; }
 
