@@ -1,4 +1,4 @@
-FROM microsoft/aspnetcore
+FROM microsoft/aspnetcore:1.1.0
 WORKDIR /app
 COPY ./publish .
 ENV ASPNETCORE_URLS http://*:9000
