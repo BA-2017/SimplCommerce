@@ -17,7 +17,6 @@ using SimplCommerce.Module.Core.Models;
 using SimplCommerce.Module.Localization;
 using SimplCommerce.WebHost.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace SimplCommerce.WebHost
 {
@@ -114,13 +113,13 @@ namespace SimplCommerce.WebHost
             app.UseCustomizedRequestLocalization();
             app.UseCustomizedStaticFiles(env);
             app.UseCustomizedIdentity();
-            app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
-            {
-                ClientId = Configuration["OpenIdConnect:ClientId"],
-                ClientSecret = Configuration["ClientSecret"],
-                Authority = Configuration["OpenIdConnect:Authority"],
-                ResponseType = OpenIdConnectResponseType.Code
-            });
+            //app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
+            //{
+            //    ClientId = Configuration["OpenIdConnect:ClientId"],
+            //    ClientSecret = Configuration["ClientSecret"],
+            //    Authority = Configuration["OpenIdConnect:Authority"],
+            //    ResponseType = OpenIdConnectResponseType.Code
+            //});
             app.UseCustomizedMvc();
         }
     }
