@@ -1,0 +1,109 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mssql-simplcommerce
+  namespace: simplcommerce
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    path: /kubernetes/mssql-simplcommerce
+    server: 172.21.21.201
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: mssql-simplcommerce
+  namespace: simplcommerce
+spec:
+  resources:
+    requests:
+      storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mssql-simplcommerce
+  namespace: simplcommerce
+  labels:
+    app: mssql-simplcommerce
+spec:
+  template:
+    metadata:
+      labels:
+        app: mssql-simplcommerce
+    spec:
+      containers:
+      - name: mssql-simplcommerce
+        image: microsoft/mssql-server-linux:ctp1-4
+        # resources:
+        #   requests:
+        #     memory: "3.25Gi"
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: MSSQL_DATABASE
+          value: "SimplCommerce"
+        - name: SA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: simplcommerce-db-credentials
+              key: sa_password
+        ports:
+        - containerPort: 1433
+        volumeMounts:
+        - name: mssql-simplcommerce
+          mountPath: "/var/opt/mssql/data"
+      volumes:
+      - name: mssql-simplcommerce
+        persistentVolumeClaim:
+          claimName: mssql-simplcommerce
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mssql-simplcommerce
+  namespace: simplcommerce
+  labels:
+    app: mssql-simplcommerce
+spec:
+  selector:
+    app: mssql-simplcommerce
+  ports:
+  - port: 1433
+    targetPort: 1433
+---
+# apiVersion: batch/v2alpha1
+# kind: CronJob
+# metadata:
+#   name: mssql-backup
+#   namespace: simplcommerce
+# spec:
+#   schedule: "*/1 * * * *"
+#   jobTemplate:
+#     spec:
+#       template:
+#         spec:
+#           containers:
+#           - name: mssql-server
+#             image: microsoft/mssql-server-linux:ctp2-1
+#             command:
+#             - "/opt/mssql-tools/bin/sqlcmd"
+#             args:
+#             - "-S"
+#             - "mssql-simplcommerce"
+#             - "-U"
+#             - "sa"
+#             - "-P"
+#             - "$SA_PASSWORD"
+#             env:
+#               - name: SA_PASSWORD
+#                 valueFrom:
+#                   secretKeyRef:
+#                     name: simplcommerce-db-credentials
+#                     key: sa_password
+#           restartPolicy: OnFailure

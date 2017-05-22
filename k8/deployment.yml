@@ -1,0 +1,41 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: simplcommerce
+  namespace: simplcommerce
+  labels:
+    app: simplcommerce
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: simplcommerce
+    spec:
+      containers:
+      - name: simplcommerce
+        image: ba2017/simplcommerce:v0.2
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
+        - name: ConnectionStrings__DefaultConnection
+          valueFrom:
+            secretKeyRef:
+              name: simplcommerce-db-credentials
+              key: connection_string
+        - name: ClientSecret
+          valueFrom:
+            secretKeyRef:
+              name: adfs-clientsecret
+              key: clientsecret
+        ports:
+        - containerPort: 9000
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 9000
+          initialDelaySeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 9000
