@@ -1,0 +1,31 @@
+apiVersion: batch/v2alpha1
+kind: CronJob
+metadata:
+  name: mssql-backup
+  namespace: simplcommerce
+spec:
+  schedule: "*/2 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: mssql-server
+            image: ba2017/simplcommerce:mssql-backup
+            # command:
+            # - "/bin/bash"
+            # args:
+            # - "-c"
+            # - "while true; do echo 'Hit CTRL+C'; sleep 1; done"
+            # command:
+            # - "/bin/bash"
+            # args:
+            # - "-c"
+            # - "\"-S mssql-simplcommerce.simplcommerce.svc.cluster.local -U sa -P $SA_PASSWORD -Q 'BACKUP DATABASE SimplCommerce TO DISK = N\'/var/opt/mssql/data/backup/simplcommerceDB_$(date +%Y_%m_%d-%H.%M).bak\' WITH NOFORMAT, NOINIT, NAME = \'simplcommerceDB-full_$(date +%Y_%m_%d-%H.%M)\', SKIP, NOREWIND, NOUNLOAD, STATS = 10; BACKUP LOG SimplCommerce TO  DISK = N\'/var/opt/mssql/data/backup/simplcommerce_LogBackup_$(date +%Y_%m_%d-%H.%M).bak\' WITH NOFORMAT, NOINIT,  NAME = N\'simplcommerce_LogBackup_$(date +%Y_%m_%d-%H.%M)\', SKIP, NOREWIND, NOUNLOAD,  STATS = 5'\""
+            env:
+              - name: SA_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: simplcommerce-db-credentials
+                    key: sa_password
+          restartPolicy: Never

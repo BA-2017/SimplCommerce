@@ -1,0 +1,4 @@
+FROM microsoft/mssql-server-linux:ctp1-4
+WORKDIR /app
+COPY ./runBackup.sh runBackup.sh
+ENTRYPOINT ["/bin/bash", "runBackup.sh"]

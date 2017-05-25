@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+/opt/mssql-tools/bin/sqlcmd -S mssql-simplcommerce.simplcommerce.svc.cluster.local -U sa -P $SA_PASSWORD -Q "BACKUP DATABASE SimplCommerce TO DISK = N'/var/opt/mssql/data/backup/simplcommerceDB_$(date +%Y_%m_%d-%H.%M).bak' WITH NOFORMAT, NOINIT, NAME = 'simplcommerceDB-full_$(date +%Y_%m_%d-%H.%M)', SKIP, NOREWIND, NOUNLOAD, STATS = 10; BACKUP LOG SimplCommerce TO  DISK = N'/var/opt/mssql/data/backup/simplcommerce_LogBackup_$(date +%Y_%m_%d-%H.%M).bak' WITH NOFORMAT, NOINIT,  NAME = N'simplcommerce_LogBackup_$(date +%Y_%m_%d-%H.%M)', SKIP, NOREWIND, NOUNLOAD,  STATS = 5"
