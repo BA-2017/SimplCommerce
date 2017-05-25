@@ -14,12 +14,10 @@ spec:
     spec:
       containers:
       - name: simplcommerce
-        image: ba2017/simplcommerce:v0.12
-        command:
-        - "dotnet run"
+        image: ba2017/simplcommerce:v0.15-local
         env:
         - name: ASPNETCORE_URLS
-          value: "http://*:9000"
+          value: "http://*:5000"
         - name: ASPNETCORE_ENVIRONMENT
           value: "Development"
         - name: ConnectionStrings__DefaultConnection
@@ -33,13 +31,13 @@ spec:
               name: adfs-clientsecret
               key: clientsecret
         ports:
-        - containerPort: 9000
+        - containerPort: 5000
         livenessProbe:
           httpGet:
             path: /
-            port: 9000
+            port: 5000
           initialDelaySeconds: 10
         readinessProbe:
           httpGet:
             path: /
-            port: 9000
+            port: 5000

@@ -10,4 +10,4 @@ spec:
     app: simplcommerce
   ports:
   - port: 80
-    targetPort: 9000
+    targetPort: 5000
