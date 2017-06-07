@@ -1,12 +1,12 @@
 # Steps for Google Cloud Builder
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-f', 'Dockerfile.build' '-t', 'build-image', '.']
+  args: ['build', '-f', 'Dockerfile.build', '-t', 'build-image', '.']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['create', '--name', 'build-container', 'build-image']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['cp', 'build-container:/app/src/SimplCommerce.WebHost/publish/', '.']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-f', 'Dockerfile.prod' '-t', 'gcr.io/$PROJECT_ID/SimplCommerce:v0.$BUILD_ID', '.']
+  args: ['build', '-f', 'Dockerfile.prod', '-t', 'gcr.io/$PROJECT_ID/SimplCommerce:v0.$BUILD_ID', '.']
 images:
 - 'gcr.io/$PROJECT_ID/SimplCommerce:v0.$BUILD_ID'
