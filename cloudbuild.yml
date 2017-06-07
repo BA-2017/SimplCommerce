@@ -7,6 +7,7 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['cp', 'build-container:/app/src/SimplCommerce.WebHost/publish/', '.']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-f', 'Dockerfile.prod', '-t', 'gcr.io/$PROJECT_ID/SimplCommerce:v0.$BUILD_ID', '.']
+  args: ['build', '-f', 'Dockerfile.prod', '-t', 'gcr.io/$PROJECT_ID/simplcommerce:$REVISION_ID', '-t', 'gcr.io/$PROJECT_ID/simplcommerce:latest', '.']
 images:
-- 'gcr.io/$PROJECT_ID/SimplCommerce:v0.$BUILD_ID'
+- 'gcr.io/$PROJECT_ID/simplcommerce:$REVISION_ID'
+- 'gcr.io/$PROJECT_ID/simplcommerce:latest'
