@@ -23,12 +23,12 @@ COPY ./test/SimplCommerce.Infrastructure.Tests/SimplCommerce.Infrastructure.Test
 COPY ./test/SimplCommerce.Module.Cms.Tests/SimplCommerce.Module.Cms.Tests.csproj ./test/SimplCommerce.Module.Cms.Tests/
 COPY ./test/SimplCommerce.Module.Core.Tests/SimplCommerce.Module.Core.Tests.csproj ./test/SimplCommerce.Module.Core.Tests/
 
-RUN dotnet restore && \
+RUN dotnet restore -r debian.8-x64 -v diag --no-cache && \
     cd src/SimplCommerce.WebHost && \
     npm install
 
 COPY ./src/ ./src/
-RUN dotnet restore && \
+RUN dotnet restore -r debian.8-x64 -v diag --no-cache && \
     dotnet build -c Release && \
     cd src/SimplCommerce.WebHost && \
     gulp copy-modules && \
