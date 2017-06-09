@@ -10,6 +10,7 @@
     <RuntimeFrameworkVersion>1.1.0</RuntimeFrameworkVersion>
     <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <!--RuntimeIdentifiers>win10-x64;osx.10.12-x64;debian.8-x64</RuntimeIdentifiers-->
   </PropertyGroup>
 
   <ItemGroup>
