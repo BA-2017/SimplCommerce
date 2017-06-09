@@ -68,6 +68,20 @@ gulp.task('copy-modules', ['clean-module'], function () {
             .pipe(gulp.dest(mPaths.hostModules + 'SimplCommerce.Module.SampleData/SampleContent'));
 });
 
+gulp.task('copy-modules-release', ['clean-module'], function () {
+    modules.forEach(function (module) {
+        gulp.src([mPaths.devModules + module.fullName + '/Views/**/*.*', mPaths.devModules + module.fullName + '/module.json'], { base: module.fullName })
+            .pipe(gulp.dest(mPaths.hostModules + module.fullName));
+        gulp.src(mPaths.devModules + module.fullName + '/bin/Release/netstandard1.6/**/*.*')
+            .pipe(gulp.dest(mPaths.hostModules + module.fullName + '/bin'));
+        gulp.src(mPaths.devModules + module.fullName + '/wwwroot/**/*.*')
+            .pipe(gulp.dest(mPaths.hostWwwrootModules + module.name));
+    });
+
+    gulp.src(mPaths.devModules + 'SimplCommerce.Module.SampleData/SampleContent/**/*.*')
+            .pipe(gulp.dest(mPaths.hostModules + 'SimplCommerce.Module.SampleData/SampleContent'));
+});
+
 gulp.task('copy-static', function () {
     modules.forEach(function (module) {
         gulp.src([mPaths.devModules + module.fullName + '/Views/**/*.*', mPaths.devModules + module.fullName + '/module.json'], { base: module.fullName })
