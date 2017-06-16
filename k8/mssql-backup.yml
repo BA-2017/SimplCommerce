@@ -5,6 +5,9 @@ metadata:
   namespace: simplcommerce
 spec:
   schedule: "@daily"
+  concurrencyPolicy: Replace
+  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 3
   jobTemplate:
     spec:
       activeDeadlineSeconds: 30
