@@ -34,10 +34,12 @@ spec:
         - containerPort: 5000
         livenessProbe:
           httpGet:
-            path: /
+            path: /about-us
             port: 5000
           initialDelaySeconds: 10
+          timeoutSeconds: 5
         readinessProbe:
           httpGet:
-            path: /
+            path: /about-us
             port: 5000
+          timeoutSeconds: 5
